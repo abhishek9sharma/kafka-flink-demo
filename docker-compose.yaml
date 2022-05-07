@@ -44,14 +44,25 @@ services:
     volumes:
         - ./data/:/transaction_loader/data
         - ./transaction_loader/:/transaction_loader
+    environment:
+      KFK: 101
+      kafka_source_topic: transactions
+      kafka_source_groupid: transactions
+      kafka_server_name: broker
+      kafka_server_port: 29092
+      kafka_linger_ms: 200
+      kafka_partitioner: murmur2_random
   predictionapi:
     build: 
       context: predictionapi
       dockerfile: Dockerfile_predictionsvc
     container_name: predictionapi
-    environment:
-      PORT: 5000
     ports:
       - '5000:5000'
     restart: "no"
-
+    volumes:
+        - ./models/model.sav:/predictionapi/model.sav
+        - ./models/type.pkl:/predictionapi/type.pkl
+        - ./models/beneficiary.pkl:/predictionapi/beneficiary.pkl
+        - ./models/country.pkl:/predictionapi/country.pkl
+        - ./predictionapi/:/predictionapi

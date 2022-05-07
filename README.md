@@ -28,6 +28,14 @@
         --you@yourmachine:~/somefolder/kafka-flink-demo/data$
             --you@yourmachine:~/somefolder/kafka-flink-demo/data/data_for_ml_ops_test.xlsx
 
+- If `- you@yourmachine:~/somefolder/kafka-flink-demo/models$` is empty copy below files to the models folder
+
+        -- you@yourmachine:~/somefolder/kafka-flink-demo/models$
+                --you@yourmachine:~/somefolder/kafka-flink-demo/models/beneficiary.pkl
+                --you@yourmachine:~/somefolder/kafka-flink-demo/models/country.pkl
+                --you@yourmachine:~/somefolder/kafka-flink-demo/models/model.sav
+                --you@yourmachine:~/somefolder/kafka-flink-demo/models/type.pkl
+
 - Go to link [http://localhost:8501/](http://localhost:8501/) and follow the steps to load the messages to Kafka
 
  

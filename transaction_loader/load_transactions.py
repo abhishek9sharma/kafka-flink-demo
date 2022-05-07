@@ -45,7 +45,6 @@ def load_records_kafka(transaction_records, kafka_config, kafka_topic, st):
         log_flag = ix%50==0
         kafka_producer.produce(topic=kafka_topic,
                         value=json.dumps(record),
-                        #callback =acked)
                         on_delivery=ProducerCallback(ix, record, log_success=True))
 
         if log_flag:
