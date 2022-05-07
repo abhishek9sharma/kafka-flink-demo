@@ -1,0 +1,12 @@
+data
+*.pyc
+*.egg-info
+*.ipynb_checkpoints
+*.iml
+*.vscode
+*.idea
+*.logs
+*.log
+*.venv
+*.xlsx
+*.csv
