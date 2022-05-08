@@ -5,6 +5,11 @@ import os,json
 from pyflink.datastream import StreamExecutionEnvironment
 from pyflink.table import StreamTableEnvironment, EnvironmentSettings,DataTypes
 from pyflink.table.udf import udf
+import requests
+import json
+import logging
+
+
 
 config = {
    'kafka_source_topic_env' : os.environ['kafka_source_topic'],
@@ -19,7 +24,6 @@ config = {
 config['kafka_bootstrap_servers'] = ":".join([
     config['kafka_server_name_env'],
     config['kafka_server_port_env']])
-
 
 ddl_source_table = """
     CREATE TABLE transactions (
@@ -60,10 +64,8 @@ ddl_sink_table = """
     )
 """.format(
     config['kafka_sink_topic_env'],
-    config['kafka_bootstrap_servers'],
-    config['kafka_source_groupid_env']
-    )
-
+    config['kafka_bootstrap_servers']
+       )
 
 
 def get_streaming_env():
@@ -93,7 +95,7 @@ def get_prediction_from_svc(svc_url, payload):
     'Content-Type': 'application/json'
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("POST", svc_url, headers=headers, data=payload)
     return response
 
 @udf(result_type=DataTypes.STRING())
@@ -123,7 +125,8 @@ def get_prediction_score(
         svc_url = os.environ['svcurl']
    
         resp = get_prediction_from_svc(svc_url, payload)
-        prediction = resp['prediction']
+        respvalue = json.loads(resp.text)
+        prediction = respvalue['prediction']
     except Exception as e:
         prediction = 'FAILED with exception {}'.format(e)
     return prediction
@@ -136,7 +139,7 @@ def main():
     #Set up source table
     tbl_env.execute_sql(ddl_source_table)
     tbl = tbl_env.from_path('transactions')
-    print('\nSource Schema')
+    flinklogger.info('Source Schema')
     tbl.print_schema()
 
     #set up udfs
@@ -170,4 +173,7 @@ def main():
                 """).wait()
 
 if __name__ == '__main__':
+    print(os.listdir())
+    flinklogger = logging.getLogger('flinklogger')
+    flinklogger.info('Starting job ')
     main()

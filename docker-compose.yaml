@@ -41,7 +41,7 @@ services:
     restart: "no"
     volumes:
         - ./data/:/transaction_loader/data
-        - ./transaction_loader/:/transaction_loader
+        #- ./transaction_loader/:/transaction_loader
     environment:
       KFK: 101
       kafka_source_topic: transactions
@@ -50,14 +50,28 @@ services:
       kafka_server_port: 29092
       kafka_linger_ms: 200
       kafka_partitioner: murmur2_random
+  predictionapi:
+    build: 
+      context: predictionapi
+      dockerfile: Dockerfile_predictionsvc
+    container_name: predictionapi
+    ports:
+      - '5000:5000'
+    restart: "no"
+    volumes:
+        - ./models/model.sav:/predictionapi/model.sav
+        - ./models/type.pkl:/predictionapi/type.pkl
+        - ./models/beneficiary.pkl:/predictionapi/beneficiary.pkl
+        - ./models/country.pkl:/predictionapi/country.pkl
+        #- ./predictionapi/:/predictionapi
   flink_processor:
     build: 
       context: flink_processor
       dockerfile: Dockerfile_flink_processor
     container_name :  flink_processor
-    # depends_on:
-    #   - zookeeper
-    #   - broker
+    depends_on:
+      - zookeeper
+      - broker
     restart: "no"
     volumes:
         - ./data/:/flink_processor/data
@@ -72,18 +86,3 @@ services:
       kafka_partitioner: murmur2_random
       kafka_sink_topic: fraudsurveillance
       svcurl: http://predictionapi:5000/predict
-
-  predictionapi:
-    build: 
-      context: predictionapi
-      dockerfile: Dockerfile_predictionsvc
-    container_name: predictionapi
-    ports:
-      - '5000:5000'
-    restart: "no"
-    volumes:
-        - ./models/model.sav:/predictionapi/model.sav
-        - ./models/type.pkl:/predictionapi/type.pkl
-        - ./models/beneficiary.pkl:/predictionapi/beneficiary.pkl
-        - ./models/country.pkl:/predictionapi/country.pkl
-        - ./predictionapi/:/predictionapi

@@ -46,5 +46,5 @@ if data_file is not None:
      st.markdown("### 3.Load Transaction to Kafka")
      records_loaded = False
      if st.button(label="Load Records"):
-          load_records_kafka(transaction_records, kafka_config, kafka_source_topic_env, st)
+          load_records_kafka(transaction_records, kafka_config, kafka_topic, st)
      st.write("Loaded all message to Kafka")
