@@ -9,19 +9,21 @@
 
         - you@yourmachine:~/somefolder/kafka-flink-demo$ chmod a+x rundemo.sh  && ./rundemo.sh
         
-    If the command runs successfull you should see the below logs
+    If the command runs successfull you should see the below logs when all pods come up
     
-            Creating network "kafka-flink-demo_default" with the default driver
-            Creating predictionapi      ... done
-            Creating zookeeper          ... done
-            Creating transaction_loader ... done
-            Creating broker             ... done
-            Waiting for Kafka pods to come up
-            #######################   
-            Kafka started
-            Created topic transactions.
-            Browse http://localhost:8501/ to load transaction data to Kafka
-            Browse http://localhost:5000/docs to see prediciton end point
+        Creating zookeeper     ... done
+        Creating predictionapi ... done
+        Creating broker        ... done
+        Creating flink_processor    ... done
+        Creating transaction_loader ... done
+        Waiting for Kafka pods to come up
+        #######################   
+        Kafka started
+        Created topic transactions.
+        Created topic fraudsurveillance.
+        Browse http://localhost:8501/ to load transaction data to Kafka
+        Browse http://localhost:5000/docs to see prediction end point
+        Once you load data from http://localhost:8501/ the final flat file should be produced in data folder
 
 - If `- you@yourmachine:~/somefolder/kafka-flink-demo/data$` is empty download the file [data_for_ml_ops_test.xlsx]()
 
@@ -38,7 +40,7 @@
 
 - Go to link [http://localhost:8501/](http://localhost:8501/) and follow the steps to load the messages to Kafka
 
-- Go to [data][/data] folder amf you should see flat files there
+- Go to [data][/data] folder amf you should see flat files there in below format
 
         -- you@yourmachine:~/somefolder/kafka-flink-demo/data$
                 ├── part-2d870663-cc36-4f3b-a9b7-eb8c0bc21853-11-0
