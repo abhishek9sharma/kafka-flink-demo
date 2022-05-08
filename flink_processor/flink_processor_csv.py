@@ -60,7 +60,7 @@ ddl_sink_table = """
         'connector' = 'filesystem',
         'format' = 'csv',
         'path' = '/flink_processor/data',
-        'sink.rolling-policy.rollover-interval' = '2s'
+        'sink.rolling-policy.rollover-interval' = '10s'
     )
 """
 
@@ -75,7 +75,7 @@ def get_streaming_env():
     tbl_env = StreamTableEnvironment.create(stream_execution_environment=env,
                                             environment_settings=settings)
     
-    tbl_env.get_config().get_configuration().set_string("execution.checkpointing.interval", "2s")
+    tbl_env.get_config().get_configuration().set_string("execution.checkpointing.interval", "10s")
 
     # add kafka connector dependency
     kafka_jar = os.path.join(os.path.abspath(os.path.dirname(__file__)),

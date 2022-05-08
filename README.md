@@ -40,7 +40,7 @@
 
 - Go to link [http://localhost:8501/](http://localhost:8501/) and follow the steps to load the messages to Kafka
 
-- Go to [data][/data] folder amf you should see flat files there in below format
+- Go to [data](/data) folder amf you should see flat files there in below format
 
         -- you@yourmachine:~/somefolder/kafka-flink-demo/data$
                 ├── part-2d870663-cc36-4f3b-a9b7-eb8c0bc21853-11-0
