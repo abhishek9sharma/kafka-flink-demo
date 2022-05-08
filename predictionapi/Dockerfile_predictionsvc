@@ -1,0 +1,20 @@
+FROM python:3.7
+
+# # Setup python and java and base system
+# FROM ubuntu:20.04
+# ENV DEBIAN_FRONTEND noninteractive
+# ENV LANG=en_US.UTF-8
+# RUN apt-get update && \
+#   apt-get upgrade -y && \
+#   apt-get install -q -y openjdk-8-jdk python3-pip libsnappy-dev language-pack-en supervisor
+# RUN pip3 install --upgrade pip requests
+
+EXPOSE 5000
+WORKDIR /predictionapi
+COPY ./ /predictionapi
+
+
+
+COPY requirements.txt ./
+RUN pip3 install -r requirements.txt
+CMD ["uvicorn", "svc:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
