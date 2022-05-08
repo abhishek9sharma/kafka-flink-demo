@@ -12,3 +12,4 @@ data
 *.csv
 *.pkl
 *.sav
+bkp/

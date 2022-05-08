@@ -9,7 +9,6 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    
   broker:
     image: confluentinc/cp-kafka:6.1.1
     hostname: broker
@@ -29,7 +28,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-  
   transaction_loader:
     build: 
       context: transaction_loader
@@ -52,6 +50,29 @@ services:
       kafka_server_port: 29092
       kafka_linger_ms: 200
       kafka_partitioner: murmur2_random
+  flink_processor:
+    build: 
+      context: flink_processor
+      dockerfile: Dockerfile_flink_processor
+    container_name :  flink_processor
+    # depends_on:
+    #   - zookeeper
+    #   - broker
+    restart: "no"
+    volumes:
+        - ./data/:/flink_processor/data
+        - ./flink_processor/:/flink_processor
+    environment:
+      KFK: 101
+      kafka_source_topic: transactions
+      kafka_source_groupid: transactions
+      kafka_server_name: broker
+      kafka_server_port: 29092
+      kafka_linger_ms: 200
+      kafka_partitioner: murmur2_random
+      kafka_sink_topic: fraudsurveillance
+      svcurl: http://predictionapi:5000/predict
+
   predictionapi:
     build: 
       context: predictionapi

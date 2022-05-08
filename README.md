@@ -38,6 +38,17 @@
 
 - Go to link [http://localhost:8501/](http://localhost:8501/) and follow the steps to load the messages to Kafka
 
- 
+- Go to console and type the command : `docker exec -it broker kafka-console-consumer --from-beginning     --bootstrap-server localhost:9092     --topic fraudsurveillance`
+        
+        -- you@yourmachine:~/somefolder/kafka-flink-demo  docker exec -it \
+                                                          broker kafka-console-consumer \
+                                                          --from-beginning     \
+                                                          --bootstrap-server localhost:9092     \
+                                                          --topic fraudsurveillance
     
 
+        "transaction_time_since_first_april_2022_00am_in_seconds":27,"transaction_amount":11.11,"beneficiary":"Mike","type":"credit_card","country":"France","Flag":"Greater than 5000","modelprediction":""}
+        {"transaction_time_since_first_april_2022_00am_in_seconds":154,"transaction_amount":11.11,"beneficiary":"BeerFactory","type":"debit_card","country":"France","Flag":"Greater than 5000","modelprediction":""}
+        {"transaction_time_since_first_april_2022_00am_in_seconds":388,"transaction_amount":10.26,"beneficiary":"BeerDream","type":"credit_card","country":"Singapore","Flag":"Greater than 5000","modelprediction":""}
+        {"transaction_time_since_first_april_2022_00am_in_seconds":447,"transaction_amount":32.37,"beneficiary":"BeerDream","type":"credit_card","country":"France","Flag":"Greater than 5000","modelprediction":""}
+        {"transaction_time_since_first_april_2022_00am_in_seconds":450,"transaction_amount":3826.0,"beneficiary":"Mike","type":"credit_card","country":"France","Flag":"Greater than 5000","modelprediction":""}

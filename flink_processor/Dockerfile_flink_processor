@@ -1,0 +1,16 @@
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND noninteractive
+ENV LANG=en_US.UTF-8
+RUN apt-get update && \
+  apt-get upgrade -y && \
+  apt-get install -q -y openjdk-8-jdk python3-pip libsnappy-dev language-pack-en supervisor
+
+RUN pip3 install --upgrade pip requests
+RUN  python3 -m pip install "apache-flink>=1.13.0,<1.14"
+
+WORKDIR /flink_processor
+COPY ./ /flink_processor
+
+RUN apt-get install -y wget
+#RUN wget -P https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/1.13.0/flink-sql-connector-kafka_2.11-1.13.0.jar
+CMD ["python3", "flink_processor.py"]
