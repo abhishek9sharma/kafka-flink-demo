@@ -60,7 +60,7 @@ ddl_sink_table = """
         'connector' = 'filesystem',
         'format' = 'csv',
         'path' = '/flink_processor/data',
-        'sink.rolling-policy.rollover-interval' = '2s'
+        'sink.rolling-policy.rollover-interval' = '10s'
     )
 """
 
@@ -75,7 +75,7 @@ def get_streaming_env():
     tbl_env = StreamTableEnvironment.create(stream_execution_environment=env,
                                             environment_settings=settings)
     
-    tbl_env.get_config().get_configuration().set_string("execution.checkpointing.interval", "2s")
+    tbl_env.get_config().get_configuration().set_string("execution.checkpointing.interval", "10s")
 
     # add kafka connector dependency
     kafka_jar = os.path.join(os.path.abspath(os.path.dirname(__file__)),
@@ -97,7 +97,7 @@ def get_prediction_from_svc(svc_url, payload):
 
 @udf(result_type=DataTypes.STRING())
 def get_flag(transaction_amount):
-    if transaction_amount>5000:
+    if transaction_amount<=5000:
         return "Scored by Model"
     else:
         return "Greater than 5000"
@@ -159,7 +159,7 @@ def main():
                             country,
                             GETFLAG(transaction_amount) as Flag,
                             CASE
-                                WHEN transaction_amount > 5000 THEN GETPREDSCORE(transaction_time_since_first_april_2022_00am_in_seconds, 
+                                WHEN transaction_amount <= 5000 THEN GETPREDSCORE(transaction_time_since_first_april_2022_00am_in_seconds, 
                                                                         transaction_amount,
                                                                         beneficiary,
                                                                         type,
