@@ -14,5 +14,6 @@ COPY ./ /flink_processor
 
 RUN apt-get install -y wget
 #RUN wget -P https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/1.13.0/flink-sql-connector-kafka_2.11-1.13.0.jar
-ADD start.sh /start.sh
-CMD ["/start.sh"]
+# ADD start.sh /start.sh
+# CMD ["/start.sh"]
+CMD ["python3", "flink_processor_csv.py"]
