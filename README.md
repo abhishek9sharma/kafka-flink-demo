@@ -46,7 +46,7 @@
                 ├── part-2d870663-cc36-4f3b-a9b7-eb8c0bc21853-11-0
                 └── part-2d870663-cc36-4f3b-a9b7-eb8c0bc21853-11-1
 
-- If you use `python3 flink_processor_kfk.py` in  [flink_processor/start.sh](/flink_processor/start.sh) then 
+- If you use `CMD ["python3", "python3 flink_processor_kfk.py"]` in  [flink_processor/Dockerfile_flink_processor](/flink_processorDockerfile_flink_processor) then 
 
   - Go to console and type below  command : `docker exec -it broker kafka-console-consumer --from-beginning     --bootstrap-server localhost:9092     --topic fraudsurveillance` and you should see something like below
         
